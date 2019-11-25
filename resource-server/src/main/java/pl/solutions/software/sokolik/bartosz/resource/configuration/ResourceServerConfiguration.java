@@ -1,7 +1,8 @@
 package pl.solutions.software.sokolik.bartosz.resource.configuration;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import org.apache.commons.io.IOUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,8 +41,17 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("123");
+        converter.setVerifierKey(getPublicKeyAsString());
         return converter;
+    }
+
+    private String getPublicKeyAsString() {
+        ClassPathResource resource = new ClassPathResource("public.txt");
+        try {
+            return IOUtils.toString(resource.getInputStream(), UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Bean

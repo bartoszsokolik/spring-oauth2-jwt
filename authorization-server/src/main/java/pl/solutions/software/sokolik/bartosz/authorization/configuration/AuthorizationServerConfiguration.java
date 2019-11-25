@@ -30,6 +30,9 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Value("${access.token.validity:3600}")
     private int accessTokenValidity;
 
@@ -44,7 +47,8 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        converter.setSigningKey("123");
+        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("mytest.jks"), "mypass".toCharArray());
+        converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"));
         return converter;
     }
 
@@ -55,16 +59,11 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
         return defaultTokenServices;
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.jdbc(dataSource)
             .withClient("sampleClientId")
-            .secret(passwordEncoder().encode("sampleClientSecret"))
+            .secret(passwordEncoder.encode("sampleClientSecret"))
             .authorizedGrantTypes("password", "authorization_code", "refresh_token")
             .accessTokenValiditySeconds(accessTokenValidity)
             .refreshTokenValiditySeconds(refreshTokenValidity)
