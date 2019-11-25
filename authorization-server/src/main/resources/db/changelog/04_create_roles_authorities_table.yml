@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: bsokolik
+      changes:
+        - createTable:
+            tableName: roles_authorities
+            columns:
+              - column:
+                  name: authority_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: roles_authorities
+            columnNames: authority_id, role_id
+        - addForeignKeyConstraint:
+            baseColumnNames: authority_id
+            baseTableName: roles_authorities
+            constraintName: fk_roles_authorities_authorities_id
+            referencedColumnNames: id
+            referencedTableName: user_authorities
+        - addForeignKeyConstraint:
+            baseColumnNames: role_id
+            baseTableName: roles_authorities
+            constraintName: fk_roles_authorities_roles_id
+            referencedColumnNames: id
+            referencedTableName: user_roles

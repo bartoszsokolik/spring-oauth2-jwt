@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  db:
+    image: 'postgres:11'
+    container_name: 'oauth-postgres'
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - './init.sql:/docker-entrypoint-initdb.d/init.sql'
+
+  authorization-server:
+    container_name: 'oauth-authorization-server'
+    build:
+      context: .
+      dockerfile: ./authorization-server/Dockerfile
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/oauthtest
+      SPRING_DATASOURCE_USERNAME: oauthtest
+      SPRING_DATASOURCE_PASSWORD: oauthtest
+
+  resource-server:
+    container_name: 'oauth-resource-server'
+    build:
+      context: .
+      dockerfile: ./resource-server/Dockerfile
+    ports:
+      - '8081:8080'
+    depends_on:
+      - db
+    environment:
+      CHECK_TOKEN_ENDPOINT_URL: http://authorization-server:8080/oauth/check_token

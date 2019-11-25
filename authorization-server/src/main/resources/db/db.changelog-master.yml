@@ -1,0 +1,19 @@
+databaseChangeLog:
+  - include:
+      file: 'changelog/01_create_app_users_table.yml'
+      relativeToChangelogFile: 'true'
+  - include:
+      file: 'changelog/02_create_table_user_authorities.yml'
+      relativeToChangelogFile: 'true'
+  - include:
+      file: 'changelog/03_create_table_user_roles.yml'
+      relativeToChangelogFile: 'true'
+  - include:
+      file: 'changelog/04_create_roles_authorities_table.yml'
+      relativeToChangelogFile: 'true'
+  - include:
+      file: 'changelog/05_create_users_roles_table.yml'
+      relativeToChangelogFile: 'true'
+  - include:
+      file: 'changelog/06_create_oauth_tables.yml'
+      relativeToChangelogFile: 'true'

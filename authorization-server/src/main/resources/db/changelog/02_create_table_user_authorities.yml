@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: bsokolik
+      changes:
+        - createTable:
+            tableName: user_authorities
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: uuid
+                  type: VARCHAR(36)
+              - column:
+                  name: authority
+                  type: VARCHAR(255)

@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 3
+      author: bsokolik
+      changes:
+        - createTable:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: uuid
+                  type: VARCHAR(36)
+              - column:
+                  name: role
+                  type: VARCHAR(255)

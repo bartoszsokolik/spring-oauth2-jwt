@@ -1,0 +1,3 @@
+CREATE DATABASE oauthtest;
+CREATE USER oauthtest WITH ENCRYPTED PASSWORD 'oauthtest';
+GRANT ALL PRIVILEGES ON DATABASE oauthtest TO oauthtest;

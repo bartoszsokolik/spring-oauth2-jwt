@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 6
+      author: bsokolik
+      changes:
+        - sqlFile:
+            path: '../sql/oauth.sql'
+            relativeToChangelogFile: true
