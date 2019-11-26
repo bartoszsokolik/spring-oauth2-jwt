@@ -17,3 +17,6 @@ databaseChangeLog:
   - include:
       file: 'changelog/06_create_oauth_tables.yml'
       relativeToChangelogFile: 'true'
+  - include:
+      file: 'changelog/07_insert_test_oauth_clients.yml'
+      relativeToChangelogFile: 'true'
